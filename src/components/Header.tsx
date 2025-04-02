@@ -7,11 +7,9 @@ const Header = () => {
     <header className="flex items-center justify-between p-6 bg-white border-b">
       <Link to="/">
         <div className="flex items-center">
-          <img 
-            src="/lovable-uploads/e4ddff2d-f12e-476d-933b-a2421f6088bb.png" 
-            alt="MongoDB Logo" 
-            className="h-8 w-auto mr-2" 
-          />
+          <div className="h-8 w-8 bg-[#00ED64] rounded-full flex items-center justify-center mr-2">
+            <span className="text-[#001E2B] text-lg font-bold">M</span>
+          </div>
           <h1 className="text-2xl font-bold text-[#001E2B]">MongoDB.</h1>
         </div>
       </Link>

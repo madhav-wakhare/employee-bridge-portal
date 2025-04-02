@@ -1,0 +1,2 @@
+
+// Vite environment variables types

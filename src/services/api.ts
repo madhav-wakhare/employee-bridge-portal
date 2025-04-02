@@ -1,13 +1,22 @@
 
 import axios from "axios";
+import { API_BASE_URL } from "./config";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
+// Configure axios with the base URL
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_BASE_URL,
 });
 
-export const getEmployees = async () => {
+// Type definitions
+export interface Employee {
+  _id?: string;
+  name: string;
+  position: string;
+  level: string;
+}
+
+// API Functions
+export const getEmployees = async (): Promise<Employee[]> => {
   try {
     const response = await api.get("/employees");
     return response.data;
@@ -17,22 +26,12 @@ export const getEmployees = async () => {
   }
 };
 
-export const createEmployee = async (employeeData: any) => {
+export const createEmployee = async (employee: Omit<Employee, "_id">): Promise<Employee> => {
   try {
-    const response = await api.post("/employees", employeeData);
+    const response = await api.post("/employees", employee);
     return response.data;
   } catch (error) {
     console.error("Error creating employee:", error);
-    throw error;
-  }
-};
-
-export const deleteEmployee = async (id: string) => {
-  try {
-    const response = await api.delete(`/employees/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting employee:", error);
     throw error;
   }
 };

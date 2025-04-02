@@ -10,7 +10,9 @@ const api = axios.create({
 // API Functions
 export const getEmployees = async () => {
   try {
+    console.log("Fetching employees from:", `${API_BASE_URL}/employees`);
     const response = await api.get("/employees");
+    console.log("Raw API Response:", response);
     
     // Ensure response.data is an array before returning
     if (Array.isArray(response.data)) {

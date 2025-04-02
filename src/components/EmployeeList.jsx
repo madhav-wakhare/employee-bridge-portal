@@ -2,8 +2,16 @@
 import { useEffect, useState } from "react";
 import { getEmployees, deleteEmployee } from "@/services/api.js";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, RefreshCw } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -15,8 +23,10 @@ const EmployeeList = () => {
   }, []);
 
   const fetchEmployees = async () => {
+    setLoading(true);
     try {
       const data = await getEmployees();
+      console.log("API Response:", data);
       // Make sure data is an array before setting it to state
       if (Array.isArray(data)) {
         setEmployees(data);
@@ -59,45 +69,56 @@ const EmployeeList = () => {
     }
   };
 
+  const handleRefresh = () => {
+    fetchEmployees();
+    toast({
+      title: "Refreshing",
+      description: "Employee list updated",
+    });
+  };
+
   if (loading) {
-    return <div className="text-center p-4">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center p-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Employee Records</h2>
-      <div className="border rounded-md overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Position
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Level
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Employee Records</h2>
+        <Button onClick={handleRefresh} size="sm" className="flex items-center gap-2">
+          <RefreshCw className="h-4 w-4" />
+          Refresh
+        </Button>
+      </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Position</TableHead>
+              <TableHead>Level</TableHead>
+              <TableHead className="w-[100px]">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {employees.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
+              <TableRow>
+                <TableCell colSpan={4} className="text-center py-8 text-gray-500">
                   No employees found
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ) : (
               employees.map((employee) => (
-                <tr key={employee._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{employee.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{employee.position}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{employee.level}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                <TableRow key={employee._id}>
+                  <TableCell>{employee.name}</TableCell>
+                  <TableCell>{employee.position}</TableCell>
+                  <TableCell>{employee.level}</TableCell>
+                  <TableCell>
                     <Button
                       variant="destructive"
                       size="sm"
@@ -105,12 +126,12 @@ const EmployeeList = () => {
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

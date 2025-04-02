@@ -1,16 +1,9 @@
 
 import { useEffect, useState } from "react";
-import { getEmployees, deleteEmployee } from "@/services/api";
+import { getEmployees, deleteEmployee, Employee } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Employee {
-  _id: string;
-  name: string;
-  position: string;
-  level: string;
-}
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);

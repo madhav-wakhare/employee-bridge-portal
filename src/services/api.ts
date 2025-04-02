@@ -9,7 +9,7 @@ const api = axios.create({
 
 // Type definitions
 export interface Employee {
-  _id?: string;
+  _id: string;  // Making _id required, not optional
   name: string;
   position: string;
   level: string;
@@ -32,6 +32,16 @@ export const createEmployee = async (employee: Omit<Employee, "_id">): Promise<E
     return response.data;
   } catch (error) {
     console.error("Error creating employee:", error);
+    throw error;
+  }
+};
+
+export const deleteEmployee = async (id: string): Promise<any> => {
+  try {
+    const response = await api.delete(`/employees/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting employee:", error);
     throw error;
   }
 };

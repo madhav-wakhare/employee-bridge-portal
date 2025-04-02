@@ -11,10 +11,17 @@ const api = axios.create({
 export const getEmployees = async () => {
   try {
     const response = await api.get("/employees");
-    return response.data;
+    
+    // Ensure response.data is an array before returning
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      console.error("API response is not an array:", response.data);
+      return [];
+    }
   } catch (error) {
     console.error("Error fetching employees:", error);
-    throw error;
+    return []; // Return empty array on error instead of throwing
   }
 };
 

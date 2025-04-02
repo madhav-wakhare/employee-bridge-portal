@@ -1,12 +1,12 @@
 
 import { useEffect, useState } from "react";
-import { getEmployees, deleteEmployee, Employee } from "@/services/api";
+import { getEmployees, deleteEmployee } from "@/services/api.js";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 const EmployeeList = () => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -42,7 +42,7 @@ const EmployeeList = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     try {
       await deleteEmployee(id);
       setEmployees((prev) => prev.filter((emp) => emp._id !== id));

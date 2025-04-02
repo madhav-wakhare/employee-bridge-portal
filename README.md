@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
 
-## Project info
+# Employee Management Application
 
-**URL**: https://lovable.dev/projects/69135bfe-0a3e-466a-a776-87a751d40349
+A 3-tier application with React frontend, Node.js backend, and MongoDB database.
 
-## How can I edit this code?
+## Project Structure
 
-There are several ways of editing your application.
+- **Frontend**: React with TypeScript, Tailwind CSS
+- **Backend**: Node.js Express API
+- **Database**: MongoDB
 
-**Use Lovable**
+## Running Locally
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/69135bfe-0a3e-466a-a776-87a751d40349) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js and npm
+- Docker and Docker Compose
 
-**Use your preferred IDE**
+### Setup
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. Clone the repository
+2. Create a `.env` file from the `.env.example` template
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Running with Docker
 
-Follow these steps:
+```bash
+# Build and start the containers
+docker-compose up --build
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Access the application
+Frontend: http://localhost:3000
+Backend API: http://localhost:5000/api/employees
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Running Without Docker
 
-# Step 3: Install the necessary dependencies.
-npm i
+#### Backend
+```bash
+cd server
+npm install
+npm start
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+#### Frontend
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## API Endpoints
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `GET /api/employees` - Get all employees
+- `POST /api/employees` - Create a new employee
+- `DELETE /api/employees/:id` - Delete an employee by ID
 
-**Use GitHub Codespaces**
+## Deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The application is containerized and ready for deployment on any platform that supports Docker.
 
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/69135bfe-0a3e-466a-a776-87a751d40349) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```bash
+# Deploy to a server
+docker-compose -f docker-compose.yml up -d
+```

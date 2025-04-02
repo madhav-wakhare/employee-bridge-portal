@@ -1,0 +1,55 @@
+
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app_network
+
+  # Backend API Service
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: server
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/employee_db
+      - PORT=5000
+    networks:
+      - app_network
+
+  # Frontend Service
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: client
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

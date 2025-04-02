@@ -17,8 +17,21 @@ const EmployeeList = () => {
   const fetchEmployees = async () => {
     try {
       const data = await getEmployees();
-      setEmployees(data);
+      // Make sure data is an array before setting it to state
+      if (Array.isArray(data)) {
+        setEmployees(data);
+      } else {
+        console.error("API did not return an array:", data);
+        setEmployees([]);
+        toast({
+          title: "Error",
+          description: "Invalid data format received from server",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
+      console.error("Error fetching employees:", error);
+      setEmployees([]);
       toast({
         title: "Error",
         description: "Failed to fetch employees",
